@@ -1,0 +1,32 @@
+pipeline{
+        agent any
+        stages{
+                stage("checkout"){
+                        agent{
+                                label "master"
+                        }
+                        steps{
+                                echo "check scm"
+                                sh "pwd"
+                        }
+                }
+                stage("build"){
+                        agent{
+                                label "slave1"
+                        }
+                        steps{
+                                echo "build scm"
+                                sh "pwd"
+                        }
+                }
+                stage("test"){
+                        agent{
+                                label "slave2"
+                        }
+                        steps{
+                                echo "test build"
+                                sh "pwd"
+                        }
+                }
+        }
+}
