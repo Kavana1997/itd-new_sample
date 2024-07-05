@@ -4,7 +4,7 @@ pipeline{
         }
         stages{
                 stage("checkout"){
-                        step{
+                        steps{
                                 echo "clone scm here"
                                 sh "pwd"
                                 sh "sleep 2"
@@ -12,13 +12,13 @@ pipeline{
                 }
                
                 stage("build"){
-                        step{
+                        steps{
                                 echo "build here"
                                 sh "sleep 2"
                         }
                 }
                 stage("test"){
-                        step{
+                        steps{
                                 echo "test here"
                                 sh "sleep 2"
                         }
