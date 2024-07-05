@@ -1,0 +1,27 @@
+pipeline{
+        agent{
+        label "master"
+        }
+        stages{
+                stage("checkout"){
+                        step{
+                                echo "clone scm here"
+                                sh "pwd"
+                                sh "sleep 2"
+                        }
+                }
+               
+                stage("build"){
+                        step{
+                                echo "build here"
+                                sh "sleep 2"
+                        }
+                }
+                stage("test"){
+                        step{
+                                echo "test here"
+                                sh "sleep 2"
+                        }
+                }
+        }
+}
