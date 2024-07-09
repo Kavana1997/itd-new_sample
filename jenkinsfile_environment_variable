@@ -6,7 +6,7 @@ pipeline{
         APP="frontend"
         DB_URL="192.168.28.24"
         BRANCH="main"
-        URL="https://github.com/Kavana1997/itd-new_sample.git"
+        ITD_URL="https://github.com/Kavana1997/itd-new_sample.git"
         CRED_ID="github"
 
     }
@@ -16,7 +16,7 @@ pipeline{
             checkout scmGit(
                 branches: [[name: '${env.BRANCH}']], 
                 userRemoteConfigs: [[credentialsId: '${env.CRED_ID}',
-                url: '${env.URL}']])
+                url: '${env.ITD_URL}']])
             }
         }
 
