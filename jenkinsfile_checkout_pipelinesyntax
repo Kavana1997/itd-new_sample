@@ -1,0 +1,23 @@
+pipeline{
+    agent{
+        label "master"
+    }
+    stages{
+        stage('checkout'){
+            steps{
+            checkout scmGit(
+                branches: [[name: '*/main']], 
+                userRemoteConfigs: [[credentialsId: 'github',
+                url: 'https://github.com/Kavana1997/itd-new_sample.git']])
+            }
+        }
+
+        stage('check checkout'){
+            steps{
+                sh "pwd"
+                sh "ls -lrt"
+            }
+        }
+    }
+
+}
