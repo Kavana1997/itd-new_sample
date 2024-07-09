@@ -1,0 +1,33 @@
+pipeline{
+    agent{
+        label "master"
+    }
+    environment{
+        APP='frontend'
+        DB_URL='192.168.28.24'
+        BRANCH='main'
+        ITD_URL='https://github.com/Kavana1997/itd-new_sample.git'
+        CRED_ID='github'
+
+    }
+    stages{
+        stage('checkout'){
+            steps{
+            checkout scmGit(
+                branches: [[name: "${env.BRANCH}"]], 
+                userRemoteConfigs: [[credentialsId: "${env.CRED_ID}",
+                url: "${env.ITD_URL}"]])
+            }
+        }
+
+        stage('environment variable'){
+            steps{
+                script{
+                    echo "${env.APP}: ${env.DB_URL}"
+                }                
+                sh "echo ${APP}"
+            }
+        }
+
+    }
+}
