@@ -21,7 +21,7 @@ pipeline{
                 scripts{
                     echo "${env.APP}: ${env.DB_URL}
                 }                
-                echo "${APP}"
+                sh  "echo ${APP}"
             }
         }
 
