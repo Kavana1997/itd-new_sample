@@ -6,7 +6,7 @@ pipeline{
         APP="frontend"
         DB_URL="192.168.28.24"
         BRANCH="main"
-        GIT_URL="https://github.com/Kavana1997/itd-new_sample.git"
+        URL="https://github.com/Kavana1997/itd-new_sample.git"
         CRED_ID="github"
 
     }
@@ -14,7 +14,7 @@ pipeline{
         stage('checkout'){
             steps{
             git branch: "${env.BRANCH}"
-            git url:"${env.GIT_URL}"
+            git url:"${env.URL}"
             git credentials: "${env.CRED_ID}"
             }
         }
