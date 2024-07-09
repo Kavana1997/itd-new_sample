@@ -5,14 +5,17 @@ pipeline{
     environment{
         APP="frontend"
         DB_URL="192.168.28.24"
+        BRANCH="main"
+        GIT_URL="https://github.com/Kavana1997/itd-new_sample.git"
+        CRED_ID="github"
+
     }
     stages{
         stage('checkout'){
             steps{
-            checkout scmGit(
-                branches: [[name: '*/main']], 
-                userRemoteConfigs: [[credentialsId: 'github',
-                url: 'https://github.com/Kavana1997/itd-new_sample.git']])
+            git branch: "${env.BRANCH}"
+            git url:"${env.GIT_URL}"
+            git credentials: "${env.CRED_ID}"
             }
         }
 
