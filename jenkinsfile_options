@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+    options{
+        timestamps()
+        timeout{time:10, units:'SECONDS'}
+        retry(2)
+    }
+
+    stages{
+        stage('checkout'){
+            steps{
+                echo "hello"
+                sh "sleep 60"
+            }
+        }
+    }
+
+}
