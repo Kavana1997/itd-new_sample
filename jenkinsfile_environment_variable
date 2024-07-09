@@ -18,7 +18,7 @@ pipeline{
 
         stage('environment variable'){
             steps{
-                scripts{
+                script{
                     echo "${env.APP}: ${env.DB_URL}
                 }                
                 echo "${APP}"
