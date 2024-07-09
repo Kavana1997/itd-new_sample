@@ -1,0 +1,49 @@
+pipeline{
+    agent{
+        label "master"
+    }
+    environment{
+        APP="frontend"
+        DB_URL="192.168.28.24"
+    
+    stages{
+        stage('checkout'){
+            steps{
+            checkout scmGit(
+                branches: [[name: '*/main']], 
+                userRemoteConfigs: [[credentialsId: 'github',
+                url: 'https://github.com/Kavana1997/itd-new_sample.git']])
+            }
+        }
+
+        stage('environment variable'){
+            steps{
+                scripts{
+                    echo "${env.APP}: ${env.DB_URL}
+                }                
+                echo "${APP}"
+            }
+        }
+
+        stage('Build1'){
+            when{
+                branch 'main'
+            }
+            steps{
+                echo "Bild app using main branch"
+                sh "ls -lrt"
+            }
+        }
+
+        stage('Build2'){
+            when{
+                branch 'dev' 
+            }
+            steps{
+                echo "build app using dev branch"
+                sh "ls -lrt"
+            }
+        }
+
+    }
+}
