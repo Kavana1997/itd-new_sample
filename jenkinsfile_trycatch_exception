@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+    triggers{
+        pollscm('*/1 * * * *')
+    }
+
+    stages{
+        stage('checkout'){
+            steps{
+                echo "this is successful"
+            }
+        }
+        stage('test'){
+            steps{
+                try{
+                    echo "running the test cases"
+                    sh 'sleep 5'
+                    sh 'exit 1'
+                }
+                catch() {
+                    echo "got an exception need to handle it"
+                }
+            }
+        }
+
+        stage('deploy'){
+            steps{
+                echo "this is not exicute"
+            }
+        }
+
+        stage('notification'){
+            steps{
+                echo "send notification"
+            }
+        }
+    }
+}
