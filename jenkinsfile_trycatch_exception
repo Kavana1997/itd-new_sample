@@ -1,9 +1,10 @@
+boolean testStatus=true
 pipeline{
     agent any
     triggers{
         pollscm('*/1 * * * *')
     }
-
+     
     stages{
         stage('checkout'){
             steps{
@@ -19,20 +20,36 @@ pipeline{
                 }
                 catch() {
                     echo "got an exception need to handle it"
+                    testStatus=false
                 }
             }
         }
 
         stage('deploy'){
             steps{
-                echo "this is not exicute"
+                script{
+                    if(testStatus==true){
+                        echo "sucessfully deployed"
+                    }
+                    else{
+                        echo "skipping "
+                    }
+                }
             }
         }
 
         stage('notification'){
             steps{
-                echo "send notification"
+                script{
+                    if(testStatus==false){
+                        echo "sucessfully send notification"
+                    }
+                    else{
+                        echo "skipping "
+                    }
+                }
             }
+            
         }
     }
 }
