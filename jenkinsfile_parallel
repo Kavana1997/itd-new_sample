@@ -37,4 +37,16 @@ pipeline{
             }
         }
     }
+    post{
+        always{
+            echo "copy all builds backup"
+        }
+        SUCCESS{
+            echo "copy only success builds backup"
+        }
+        failure{
+            echo "copy only fail builds backup"
+            cleanws
+        }
+    }
 }
