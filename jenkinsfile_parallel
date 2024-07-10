@@ -40,10 +40,10 @@ pipeline{
     post{
         always{
             echo "copy all builds backup"
+                cleanWs()
         }
         success{
             echo "copy only success builds backup"
-            cleanws ()
         }
         failure{
             echo "copy only fail builds backup"
