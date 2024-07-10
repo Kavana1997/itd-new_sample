@@ -1,0 +1,23 @@
+pipeline{
+    agent{
+        label "master"
+    }
+    triggers{
+        cron('* * * * *')
+    }
+    stages{
+        stage('stage1'){
+            steps{
+                catchError(stageResult: 'FAILURE', buildResult: 'SUCCESS'){
+                    echo "exicution failure"
+                    sh 'exit 1'
+                }
+            }
+        }
+        stage('stage2'){
+            steps{
+                echo "stage2 is exicuted"
+            }
+        }
+    }
+}
