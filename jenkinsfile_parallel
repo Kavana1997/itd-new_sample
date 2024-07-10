@@ -43,10 +43,11 @@ pipeline{
         }
         success{
             echo "copy only success builds backup"
+            cleanws ()
         }
         failure{
             echo "copy only fail builds backup"
-            cleanws ()
+            
         }
     }
 }
