@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    stages{
+        stage('checkout'){
+            steps{
+                echo "checkout is done"
+            }
+        }
+
+        stage('test'){
+            parallel{
+                stage('chrome'){
+                    steps{
+                        echo "browse in chrome"
+                    }
+                }
+                stage('opera'){
+                    steps{
+                        echo "browse in opera"
+                    }
+                }
+                stage('safari'){
+                    steps{
+                        echo "browse in safari"
+                    }
+                }
+                stage('firebox'){
+                    steps{
+                        echo "browse in firebox"
+                    }
+                }
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo "deploy to production"
+            }
+        }
+    }
+}
