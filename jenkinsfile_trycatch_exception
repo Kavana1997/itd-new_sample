@@ -2,7 +2,7 @@ boolean testStatus=true
 pipeline{
     agent any
     triggers{
-        pollscm('* * * * *')
+        pollSCM('* * * * *')
     }
      
     stages{
@@ -15,10 +15,9 @@ pipeline{
             steps{
                 try{
                     echo "running the test cases"
-                    sh 'sleep 5'
-                    sh 'exit 1'
-                }
-                catch(Exception e) {
+                    sh "sleep 5"
+                    exit 1
+                }catch(Exception e) {
                     echo "got an exception need to handle it"
                     echo "$e"
                     testStatus=false
