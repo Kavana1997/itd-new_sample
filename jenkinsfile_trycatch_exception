@@ -30,7 +30,7 @@ pipeline{
         stage('deploy'){
             steps{
                 script{
-                    if(testStatus == true){
+                    if(testStatus){
                         echo "sucessfully deployed"
                     }
                     else{
@@ -43,7 +43,7 @@ pipeline{
         stage('notification'){
             steps{
                 script{
-                    if(testStatus == false){
+                    if(!testStatus){
                         echo "sucessfully send notification"
                     }
                     else{
