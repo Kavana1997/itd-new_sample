@@ -1,5 +1,9 @@
 pipeline{
    agent any
+   options {
+     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+   }
+
    stages{
       stage('checkout'){
          steps{
@@ -34,13 +38,25 @@ pipeline{
          }
       }
       stage('deploy tomcat10'){
+         input{
+            message "are you trying to deploy tomcat"
+            parameters{
+               choice choices: ['YES', 'NO'], description: 'choose yes or no for deployment', name: 'CHOOSE_DEPOY'   
+            }  
+         }
          steps{
             script{
+               if(CHOOSE_DEPOY == 'YES'){
                deploy adapters: [tomcat9(credentialsId:'tomcat_kavana',
                               url: 'http://13.233.137.84:8080')],
                               contextPath:'/calculator',
                               war: 'calculator_app/target/calculator.war'
+               }
+               else{
+                  echo "code is not correct so we can't go for deployment"
+               }
             }
+
          }
       }
    }
