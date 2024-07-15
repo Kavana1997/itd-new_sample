@@ -1,13 +1,15 @@
 pipeline{
    agent any
    options {
-     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '2')
    }
 
    stages{
       stage('checkout'){
          steps{
-            checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Kavana1997/calculator_app1_itd.git']])
+            checkout scmGit(branches: [[name: '*/main']], 
+            extensions: [], 
+            userRemoteConfigs: [[url: 'https://github.com/Kavana1997/calculator_app1_itd.git']])
          }
       }
       
@@ -31,24 +33,23 @@ pipeline{
       stage('load testing'){
          steps{
             catchError(stageResult: 'FAILURE', buildResult: 'SUCCESS'){
-               dir('./calculator_app'){
-               sh 'mvn clean verify'
-               }
+            dir('./calculator_app'){
+            sh 'mvn clean verify'
+            }
             }
          }
       }
       stage('deploy tomcat10'){
          input{
             message "are you trying to deploy tomcat"
-            parameters{
-               choice choices: ['YES', 'NO'], description: 'choose yes or no for deployment', name: 'CHOOSE_DEPOY'   
-            }  
+               parameters{
+                  choice choices: ['YES', 'NO'], description: 'choose yes or no for deployment', name: 'CHOOSE_DEPOY'   
+               }    
          }
          steps{
             script{
                if(CHOOSE_DEPOY == 'YES'){
-               deploy adapters: [tomcat9(credentialsId:'tomcat_kavana',
-                              url: 'http://13.233.137.84:8080')],
+               deploy adapters: [tomcat9(credentialsId:'tomcat_kavana',url: 'http://13.233.137.84:8080', path: '')],
                               contextPath:'/calculator',
                               war: 'calculator_app/target/calculator.war'
                }

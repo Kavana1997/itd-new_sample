@@ -1,0 +1,62 @@
+pipeline{
+    agent any
+    options{
+         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '10')
+    }
+    stages{
+        stage("git checkout"){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']],
+                 extensions: [], 
+                 userRemoteConfigs: [[url: 'https://github.com/Harshitha-1996/calculator_app.git']])
+            }
+        }
+        stage("unit testing"){
+            steps{
+                sh '''
+                cd  ./java_app-main/calculator_app
+                mvn test 
+                '''
+                }
+        }
+        stage("Integration test"){
+            steps{
+                dir('./java_app-main/calculator_app'){
+                    sh 'mvn integration-test'
+                }
+            }
+        }
+        stage("Load testing"){
+            steps{
+                catchError(buildResult: 'FAILURE' , stageResult:'SUCCESS'){
+                dir('./java_app-main/calculator_app'){
+                sh 'mvn clean verify'
+                }
+                }
+
+            }
+        }
+        stage("depoly"){
+            input{
+                    message "Do you want to deploy application to tomcat?"
+                        parameters{
+                                    choice choices: ['YES', 'NO'], description: 'Select yes or no', name: 'DEPLOY_CHOICE'
+                                 }
+                }
+
+            steps{
+                script{
+                    if ( DEPLOY_CHOICE == 'YES'){
+                     deploy adapters: [tomcat9(credentialsId:'tomcatharshu', url:'http://13.201.228.183:8080//', path: '')],
+                     contextPath: '/calculator',
+                     war: 'java_app-main/calculator_app/target/calculator.war'
+                    }
+                    else {
+                        echo "skipped deployment"
+                    }
+                }
+            }
+        }
+    }
+
+}
