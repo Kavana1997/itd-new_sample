@@ -1,0 +1,17 @@
+pipeline{
+    agent any
+    stages{
+        stage('CHECKOUT'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], 
+                         extensions: [],
+                         userRemoteConfigs: [[url: 'https://github.com/Kavana1997/calculator_app1_itd.git']])
+            }
+        }
+        stage('Build'){
+            steps{
+                sh "ls -lrt"
+            }
+        }
+    }
+}
