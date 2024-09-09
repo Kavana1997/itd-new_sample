@@ -16,5 +16,12 @@ pipeline{
                 }
             }
         }
+        stage('unit_test'){
+            step{
+                dir('./calculator_app'){
+                sh "docker run -it --rm -d --name test-container maven_image mvn test"
+                }
+            }
+        }
     }
 }
