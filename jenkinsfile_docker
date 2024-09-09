@@ -12,7 +12,7 @@ pipeline{
             steps{
                 dir('./calculator_app'){
                 sh "ls -lrt"
-                sh "docker build -t maven_image -f ./Dockerfile ."
+                sh "docker build -t maven_image ."
                 }
             }
         }
