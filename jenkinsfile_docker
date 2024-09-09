@@ -23,5 +23,32 @@ pipeline{
                 }
             }
         }
+        stage('integration_and_load_test'){
+            steps{
+                dir('./calculator_app'){
+                sh "docker run -it --rm -d --name integration-container maven_image mvn clean verify"
+                }
+            }
+        }
+        stage('deploy tomcat10'){
+        input{
+            message "are you trying to deploy tomcat"
+               parameters{
+                     choice choices: ['YES', 'NO'], description: 'choose yes or no for deployment', name: 'CHOOSE_DEPOY'   
+               }    
+         }
+         steps{
+            script{
+               if(CHOOSE_DEPOY == 'YES'){
+               deploy adapters: [tomcat9(credentialsId:'tomcat_kavana',url: 'http://13.233.192.201:8080/', path: '')],
+                              contextPath:'/calculator1',
+                              war: 'calculator_app/target/calculator1.war'
+               }
+               else{
+                  echo "code is not correct so we can't go for deployment"
+               }
+            }
+
+         }
     }
 }
