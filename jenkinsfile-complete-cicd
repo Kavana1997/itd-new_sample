@@ -1,0 +1,11 @@
+@shared('cicd-project-lib') _
+pipeline{
+    agent any
+    stages{
+        stage('git-Checkout'){
+            steps{
+                git-check('https://github.com/Kavana1997/itd_python_flask_app.git','github-cred','*/main')
+            }
+        }
+    }
+}
