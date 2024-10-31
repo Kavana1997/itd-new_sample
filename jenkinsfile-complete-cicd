@@ -5,7 +5,7 @@ pipeline{
         stage('git-Checkout'){
             steps{
                 def config = {
-                  url:'https://github.com/Kavana1997/itd_python_flask_app.git',
+                  url: 'https://github.com/Kavana1997/itd_python_flask_app.git',
                   credentialsID: 'github-cred',
                   name: 'main'
                 }
