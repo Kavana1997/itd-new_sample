@@ -16,12 +16,15 @@ pipeline{
         }
 
         stage('sonar-scan'){
-          steps{
-            script{
-              sh '''
-              which sonar-scanner
-              sonar-scanner -V
-              '''
+          steps {
+            script {
+              withSonarQubeEnv('sonar_server') {
+                sh '''
+                  which sonar-scanner
+                  sonar-scanner -v
+                  sonar-scanner
+                '''
+              }
             }
           }
         }
