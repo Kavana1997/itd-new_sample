@@ -14,5 +14,16 @@ pipeline{
                 }
             }
         }
+
+        stage('sonar-scan'){
+          steps{
+            script{
+              sh '''
+              which sonar-scanner
+              sonar-scanner -V
+              '''
+            }
+          }
+        }
     }
 }
